@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
@@ -9,13 +9,18 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  loginForm: any;
+  //loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: Auth) {}
+  constructor(private fb: FormBuilder, private auth: Auth) {
 
-  loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
-  });
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
+
+ 
 
  
 
@@ -27,4 +32,5 @@ export class LoginComponent {
         .catch(err => console.error('Login error:', err));
     }
 
+}
 }
