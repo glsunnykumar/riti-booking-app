@@ -1,0 +1,39 @@
+<div class="container">
+    <h2>Online Booking</h2>
+  
+    <!-- Booking Form -->
+    <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
+      <mat-form-field>
+        <mat-label>User ID</mat-label>
+        <input matInput formControlName="userId">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Service</mat-label>
+        <input matInput formControlName="service">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Date</mat-label>
+        <input matInput type="date" formControlName="date">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Time</mat-label>
+        <input matInput type="time" formControlName="time">
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.valid">
+        Submit Booking
+      </button>
+    </form>
+  
+    <!-- Booking List -->
+    <h3>Existing Bookings</h3>
+    <ul>
+      <li *ngFor="let booking of bookings">
+        <strong>{{ booking.service }}</strong> - {{ booking.date }} at {{ booking.time }}
+      </li>
+    </ul>
+  </div>
+  
