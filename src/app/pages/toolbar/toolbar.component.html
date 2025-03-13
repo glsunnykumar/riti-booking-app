@@ -1,0 +1,29 @@
+<mat-toolbar class="toolbar" color="primary">
+    <!-- Logo and Brand Name -->
+    <div class="brand">
+      <img src="assets/logo.png" alt="Brand Logo" class="logo" />
+      <span class="brand-name">My Booking SaaS</span>
+    </div>
+  
+    <!-- Navigation Links (Desktop View) -->
+    <nav class="nav-links">
+      <a mat-button routerLink="/">Home</a>
+      <a mat-button routerLink="/booking">Booking</a>
+      <a mat-button routerLink="/pricing">Pricing</a>
+      <a mat-button routerLink="/contact">Contact</a>
+    </nav>
+  
+    <!-- Mobile Menu Button -->
+    <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <!-- Mobile Menu -->
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/">Home</button>
+      <button mat-menu-item routerLink="/booking">Booking</button>
+      <button mat-menu-item routerLink="/pricing">Pricing</button>
+      <button mat-menu-item routerLink="/contact">Contact</button>
+    </mat-menu>
+  </mat-toolbar>
+  
