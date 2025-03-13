@@ -18,7 +18,7 @@ import { ApiService } from '../../services/api/api.service';
     CommonModule],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
-  providers: [ApiService],
+  providers: [ApiService]
 })
 export class BookingComponent {
 
