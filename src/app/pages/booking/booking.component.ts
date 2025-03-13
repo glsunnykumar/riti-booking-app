@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule  } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api/api.service';
 
@@ -15,6 +20,10 @@ import { ApiService } from '../../services/api/api.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule, 
+    MatProgressSpinnerModule,
     CommonModule],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
@@ -22,15 +31,23 @@ import { ApiService } from '../../services/api/api.service';
 })
 export class BookingComponent {
 
-  bookingForm: FormGroup;
-  bookings: any[] = [];
+  private fb = inject(FormBuilder);
+  private apiService = inject(ApiService);
+  private snackBar = inject(MatSnackBar);
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  bookingForm: FormGroup;
+  bookings:[] =[] ;
+  isLoading = false;
+
+  services = ['Haircut', 'Massage', 'Manicure', 'Dentist', 'Consultation'];
+
+  constructor() {
     this.bookingForm = this.fb.group({
-      userId: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       service: ['', Validators.required],
       date: ['', Validators.required],
-      time: ['', Validators.required],
     });
   }
 

@@ -1,0 +1,42 @@
+.booking-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+  
+    form {
+      display: grid;
+      gap: 15px;
+    }
+  
+    mat-form-field {
+      width: 100%;
+    }
+  
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 600px) {
+    .booking-container {
+      width: 90%;
+      padding: 15px;
+    }
+  }
+  

@@ -1,39 +1,51 @@
-<div class="container">
-    <h2>Online Booking</h2>
+<div class="booking-container">
+    <h2>Book an Appointment</h2>
   
-    <!-- Booking Form -->
     <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
-      <mat-form-field>
-        <mat-label>User ID</mat-label>
-        <input matInput formControlName="userId">
+      <!-- Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter your name" />
+        <mat-error *ngIf="bookingForm.get('name')?.invalid">Name is required</mat-error>
       </mat-form-field>
   
-      <mat-form-field>
+      <!-- Email -->
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="Enter your email" />
+        <mat-error *ngIf="bookingForm.get('email')?.invalid">Invalid email</mat-error>
+      </mat-form-field>
+  
+      <!-- Phone -->
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" placeholder="Enter phone number" />
+        <mat-error *ngIf="bookingForm.get('phone')?.invalid">Invalid phone number</mat-error>
+      </mat-form-field>
+  
+      <!-- Service Selection -->
+      <mat-form-field appearance="outline">
         <mat-label>Service</mat-label>
-        <input matInput formControlName="service">
+        <mat-select formControlName="service">
+          <mat-option *ngFor="let service of services" [value]="service">{{ service }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="bookingForm.get('service')?.invalid">Select a service</mat-error>
       </mat-form-field>
   
-      <mat-form-field>
+      <!-- Date Picker -->
+      <mat-form-field appearance="outline">
         <mat-label>Date</mat-label>
-        <input matInput type="date" formControlName="date">
+        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose a date" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="bookingForm.get('date')?.invalid">Date is required</mat-error>
       </mat-form-field>
   
-      <mat-form-field>
-        <mat-label>Time</mat-label>
-        <input matInput type="time" formControlName="time">
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" type="submit" [disabled]="!bookingForm.valid">
-        Submit Booking
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="isLoading || bookingForm.invalid">
+        <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
+        <span *ngIf="!isLoading">Submit Booking</span>
       </button>
     </form>
-  
-    <!-- Booking List -->
-    <h3>Existing Bookings</h3>
-    <ul>
-      <li *ngFor="let booking of bookings">
-        <strong>{{ booking.service }}</strong> - {{ booking.date }} at {{ booking.time }}
-      </li>
-    </ul>
   </div>
   
