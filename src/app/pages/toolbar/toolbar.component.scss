@@ -1,17 +1,19 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Ensures everything aligns vertically */
   padding: 0 20px;
+  height: 64px;
 }
 
 /* Logo and Brand Name */
 .brand {
   display: flex;
   align-items: center;
+  gap: 10px; /* Adds spacing between logo and brand name */
 
   .logo {
     height: 40px;
-    margin-right: 10px;
   }
 
   .brand-name {
@@ -29,6 +31,7 @@
 /* User Profile */
 .user-profile {
   display: flex;
+  gap: 20px;
   align-items: center;
 
   .avatar {
@@ -36,6 +39,7 @@
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
+    object-fit: cover; /* Ensures the image fills the circular frame */
   }
 }
 
@@ -51,6 +55,7 @@
   }
 
   .menu-button {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
   }
 }
