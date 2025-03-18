@@ -1,44 +1,56 @@
 .toolbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+/* Logo and Brand Name */
+.brand {
+  display: flex;
+  align-items: center;
+
+  .logo {
+    height: 40px;
+    margin-right: 10px;
   }
-  
-  /* Logo and Brand Name */
-  .brand {
-    display: flex;
-    align-items: center;
-  
-    .logo {
-      height: 40px;
-      margin-right: 10px;
-    }
-  
-    .brand-name {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
+
+  .brand-name {
+    font-size: 1.5rem;
+    font-weight: bold;
   }
-  
-  /* Navigation Links */
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+/* User Profile */
+.user-profile {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+/* Hide mobile menu button on large screens */
+.menu-button {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .nav-links {
-    display: flex;
-    gap: 15px;
-  }
-  
-  /* Hide mobile menu button on large screens */
-  .menu-button {
     display: none;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .nav-links {
-      display: none;
-    }
-  
-    .menu-button {
-      display: inline-flex;
-    }
+
+  .menu-button {
+    display: inline-flex;
   }
-  
+}
