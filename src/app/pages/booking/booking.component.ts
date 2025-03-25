@@ -9,6 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
   selector: 'app-booking',
@@ -32,7 +33,7 @@ export class BookingComponent {
     { name: 'Massage', price: 40 }
   ];
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private bookingService: BookingService) {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -45,6 +46,14 @@ export class BookingComponent {
 
   get f() {
     return this.bookingForm.controls;
+  }
+
+  async submitBooking() {
+    if (this.bookingForm.valid) {
+      await this.bookingService.addBooking(this.bookingForm.value);
+      alert('Booking Confirmed!');
+      this.bookingForm.reset();
+    }
   }
 
   confirmBooking() {
