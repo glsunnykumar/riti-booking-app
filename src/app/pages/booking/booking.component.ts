@@ -1,88 +1,64 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule  } from '@angular/forms';
-
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { NgIf, NgFor, CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatSelectModule} from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
-import { ApiService } from '../../services/api/api.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-booking',
   standalone :true,
   imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule, 
-    MatProgressSpinnerModule,
-    CommonModule],
+    CommonModule, ReactiveFormsModule,
+    MatCardModule, MatFormFieldModule, MatInputModule,
+    MatSelectModule, MatDatepickerModule, MatNativeDateModule,
+    MatButtonModule, MatSnackBarModule
+  ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
-  providers: [ApiService]
 })
 export class BookingComponent {
 
-  private fb = inject(FormBuilder);
-  private apiService = inject(ApiService);
-  private snackBar = inject(MatSnackBar);
-
+  minDate: Date = new Date(); // Setting minimum date to today
   bookingForm: FormGroup;
-  bookings:[] =[] ;
-  isLoading = false;
+  services = [
+    { name: 'Haircut', price: 20 },
+    { name: 'Spa Treatment', price: 50 },
+    { name: 'Massage', price: 40 }
+  ];
 
-  services = ['Haircut', 'Massage', 'Manicure', 'Dentist', 'Consultation'];
-
-  constructor() {
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       service: ['', Validators.required],
       date: ['', Validators.required],
+      time: ['', Validators.required]
     });
   }
 
-  // 🔹 Submit Booking Form
-  submitBooking() {
-    if (this.bookingForm.valid) {
-      this.apiService.createBooking(this.bookingForm.value).subscribe({
-        next: (response) => {
-          console.log('Booking Successful:', response);
-          alert('Booking created successfully!');
-          this.fetchBookings();
-        },
-        error: (error) => {
-          console.error('Error creating booking:', error);
-        }
-      });
-    }
-  }
-  
-
- // 🔹 Fetch All Bookings
-fetchBookings() {
-  this.apiService.getBookings().subscribe({
-    next: (response) => {
-      this.bookings = response;
-    },
-    error: (error) => {
-      console.error('Error fetching bookings:', error);
-    }
-  });
-}
-
-  // Fetch bookings on component load
-  ngOnInit() {
-    this.fetchBookings();
+  get f() {
+    return this.bookingForm.controls;
   }
 
+  confirmBooking() {
+    if (this.bookingForm.invalid) {
+      this.snackBar.open('Please fill in all details correctly', 'OK', { duration: 2000, panelClass: ['error-snackbar'] });
+      return;
+    }
+
+    console.log('Booking Confirmed:', this.bookingForm.value);
+    this.snackBar.open('Booking confirmed successfully!', 'OK', { duration: 2000, panelClass: ['success-snackbar'] });
+
+    this.bookingForm.reset();
+  }
 }
+
+
+

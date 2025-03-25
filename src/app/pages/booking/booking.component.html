@@ -1,51 +1,71 @@
-<div class="booking-container">
-    <h2>Book an Appointment</h2>
-  
-    <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
-      <!-- Name -->
-      <mat-form-field appearance="outline">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" placeholder="Enter your name" />
-        <mat-error *ngIf="bookingForm.get('name')?.invalid">Name is required</mat-error>
-      </mat-form-field>
-  
-      <!-- Email -->
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" placeholder="Enter your email" />
-        <mat-error *ngIf="bookingForm.get('email')?.invalid">Invalid email</mat-error>
-      </mat-form-field>
-  
-      <!-- Phone -->
-      <mat-form-field appearance="outline">
-        <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" placeholder="Enter phone number" />
-        <mat-error *ngIf="bookingForm.get('phone')?.invalid">Invalid phone number</mat-error>
-      </mat-form-field>
-  
-      <!-- Service Selection -->
-      <mat-form-field appearance="outline">
-        <mat-label>Service</mat-label>
-        <mat-select formControlName="service">
-          <mat-option *ngFor="let service of services" [value]="service">{{ service }}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="bookingForm.get('service')?.invalid">Select a service</mat-error>
-      </mat-form-field>
-  
-      <!-- Date Picker -->
-      <mat-form-field appearance="outline">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose a date" />
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="bookingForm.get('date')?.invalid">Date is required</mat-error>
-      </mat-form-field>
-  
-      <!-- Submit Button -->
-      <button mat-raised-button color="primary" type="submit" [disabled]="isLoading || bookingForm.invalid">
-        <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
-        <span *ngIf="!isLoading">Submit Booking</span>
-      </button>
-    </form>
-  </div>
-  
+<mat-card class="booking-card">
+  <h2>Book Your Appointment</h2>
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+    
+    <!-- Name -->
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="f['name'].touched && f['name'].invalid">
+        Name is required (Min 3 characters)
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error *ngIf="f['email'].touched && f['email'].invalid">
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput type="tel" formControlName="phone" />
+      <mat-error *ngIf="f['phone'].touched && f['phone'].invalid">
+        Phone must be 10 digits
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Service Selection -->
+    <mat-form-field appearance="outline">
+      <mat-label>Select Service</mat-label>
+      <mat-select formControlName="service">
+        <mat-option *ngFor="let service of services" [value]="service.name">
+          {{ service.name }} - ${{ service.price }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="f['service'].touched && f['service'].invalid">
+        Please select a service
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Date Picker -->
+    <mat-form-field appearance="outline">
+      <mat-label>Select Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="f['date'].touched && f['date'].invalid">
+        Please select a date
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Time -->
+    <mat-form-field appearance="outline">
+      <mat-label>Preferred Time</mat-label>
+      <input matInput type="time" formControlName="time" />
+      <mat-error *ngIf="f['time'].touched && f['time'].invalid">
+        Please select a time
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="bookingForm.invalid">
+      Confirm Booking
+    </button>
+
+  </form>
+</mat-card>
