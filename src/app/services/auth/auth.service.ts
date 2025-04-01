@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router'; 
 
 @Injectable({
@@ -6,10 +8,59 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
+  private auth: Auth = inject(Auth);
+  private firestore: Firestore = inject(Firestore);
+  userRole: 'admin' | 'user' | null = null;
+
   constructor(private router: Router) {}
 
-  logout() {
-    localStorage.removeItem('user'); // Remove user data
-    this.router.navigate(['/login']); // Redirect to login page
+  // Login Admin
+  async login(email: string, password: string) {
+    const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+    const user = userCredential.user;
+
+    // Fetch role from Firestore
+    const userRef = doc(this.firestore, 'users', user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      this.userRole = userSnap.data()['role'];
+      
+      // Redirect based on role
+      if (this.userRole === 'admin') {
+        this.router.navigate(['/admin/bookings']);
+      } else {
+        this.router.navigate(['/bookings']);
+      }
+    } else {
+      console.error('User role not found');
+    }
+  } catch (error: any) {
+    console.error('Login error:', error);
   }
+    
+  
+
+   // Logout Admin
+   async logout() {
+    await signOut(this.auth);
+    this.userRole = null;
+    this.router.navigate(['/']);
+  }
+
+    // Check if User is Admin
+    async isAdmin(): Promise<boolean> {
+      const currentUser = this.auth.currentUser;
+      if (!currentUser) return false;
+  
+      const userDocRef = doc(this.firestore, `users/${currentUser.uid}`);
+      const userDocSnap = await getDoc(userDocRef);
+  
+      return userDocSnap.exists() && userDocSnap.data()?.['role'] === 'admin';
+    }
+
+  // logout() {
+  //   localStorage.removeItem('user'); // Remove user data
+  //   this.router.navigate(['/login']); // Redirect to login page
+  // }
 }

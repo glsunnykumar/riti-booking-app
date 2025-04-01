@@ -10,6 +10,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookingService } from '../../services/booking/booking.service';
+import { Firestore } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-booking',
@@ -27,13 +29,20 @@ export class BookingComponent {
 
   minDate: Date = new Date(); // Setting minimum date to today
   bookingForm: FormGroup;
+  userId: string | null = null;
+
   services = [
     { name: 'Haircut', price: 20 },
     { name: 'Spa Treatment', price: 50 },
     { name: 'Massage', price: 40 }
   ];
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private bookingService: BookingService) {
+  constructor(private fb: FormBuilder,
+     private snackBar: MatSnackBar,
+     private bookingService: BookingService,
+     private firestore: Firestore,
+     private auth: Auth
+    ) {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -41,6 +50,13 @@ export class BookingComponent {
       service: ['', Validators.required],
       date: ['', Validators.required],
       time: ['', Validators.required]
+    });
+
+     // Fetch logged-in user ID
+     this.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.userId = user.uid;
+      }
     });
   }
 
@@ -50,7 +66,15 @@ export class BookingComponent {
 
   async submitBooking() {
     if (this.bookingForm.valid) {
-      await this.bookingService.addBooking(this.bookingForm.value);
+
+      const bookingData = {
+        ...this.bookingForm.value,
+        userId: this.userId, // Store user ID
+        status: 'pending', // Default status
+        createdAt: new Date()
+      };
+
+      await this.bookingService.addBooking(bookingData);
       alert('Booking Confirmed!');
       this.bookingForm.reset();
     }
@@ -67,6 +91,23 @@ export class BookingComponent {
 
     this.bookingForm.reset();
   }
+
+  async cancelBooking(bookingId: string) {
+    // if (!this.userId) return;
+
+    // const bookingRef = doc(this.firestore, 'bookings', bookingId);
+    // const bookingSnap = await getDoc(bookingRef);
+
+    // if (bookingSnap.exists() && bookingSnap.data().userId === this.userId) {
+    //   await updateDoc(bookingRef, { status: 'cancelled' });
+    //   alert('Booking cancelled successfully.');
+    // } else {
+    //   alert('You can only cancel your own booking.');
+    // }
+  }
+
+
+
 }
 
 
