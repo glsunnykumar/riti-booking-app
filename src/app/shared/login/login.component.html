@@ -1,5 +1,9 @@
 <div class="login-container">
     <mat-card class="login-card">
+      <button mat-icon-button class="close-button" (click)="closeModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+  
       <mat-card-title>Login</mat-card-title>
       
       <form [formGroup]="loginForm" (ngSubmit)="login()">
