@@ -45,6 +45,12 @@
   display: none;
 }
 
+.welcome-text {
+  font-weight :600;
+  margin-right: 10px;
+    color: #360A0C;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
   .nav-links {

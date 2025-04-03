@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router'; 
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,14 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private auth: Auth = inject(Auth);
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$: Observable<User | null> = this.userSubject.asObservable();
   private firestore: Firestore = inject(Firestore);
   userRole: 'admin' | 'user' | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.auth.onAuthStateChanged(user => this.userSubject.next(user));
+  }
 
   // Login Admin
   async login(email: string, password: string) {
@@ -58,9 +63,4 @@ export class AuthService {
   
       return userDocSnap.exists() && userDocSnap.data()?.['role'] === 'admin';
     }
-
-  // logout() {
-  //   localStorage.removeItem('user'); // Remove user data
-  //   this.router.navigate(['/login']); // Redirect to login page
-  // }
 }

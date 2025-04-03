@@ -15,9 +15,19 @@
 
   <!-- User Profile -->
   <div class="user-profile">
+     <!-- If user is logged in, show Welcome Message & Logout -->
+  <ng-container *ngIf="user$ | async as user; else loginTemplate">
+    <span class="welcome-text">Welcome, {{ user.displayName || user.email }}</span>
+    
+    <button mat-button (click)="logout()">Logout</button>
+  </ng-container>
+
+   <!-- If user is NOT logged in, show Login Icon -->
+   <ng-template #loginTemplate>
     <button mat-icon-button (click)="openLoginModal()">
       <mat-icon>account_circle</mat-icon>
     </button>
+  </ng-template>
   </div>
 
   <!-- Mobile Menu Button -->

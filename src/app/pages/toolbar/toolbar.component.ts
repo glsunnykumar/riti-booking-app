@@ -9,6 +9,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { LoginComponent } from '../../shared/login/login.component';
+import { Observable } from 'rxjs';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-toolbar',
@@ -24,10 +26,13 @@ import { LoginComponent } from '../../shared/login/login.component';
 })
 export class ToolbarComponent {
   private dialog = inject(MatDialog);
+  private authService = inject(AuthService);
+
+  user$: Observable<User | null> = this.authService.user$; // Get user state
   isMobile: boolean = false;
   showProfileDropdown: boolean = false;
 
-  constructor(private authService: AuthService) {
+  constructor() {
     this.checkScreenSize();
   }
 
@@ -53,7 +58,5 @@ export class ToolbarComponent {
 
   logout(){
     this.authService.logout(); // Implement logout logic
-    // localStorage.removeItem('user'); // Remove user data
-    // this.router.navigate(['/login']); // Redirect to login page
   }
 }
