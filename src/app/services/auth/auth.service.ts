@@ -33,7 +33,7 @@ export class AuthService {
       
       // Redirect based on role
       if (this.userRole === 'admin') {
-        this.router.navigate(['/admin/bookings']);
+        this.router.navigate(['/admin']);
       } else {
         this.router.navigate(['/bookings']);
       }
