@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   standalone: true,
@@ -24,6 +25,17 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class AdminLayoutComponent {
   isCollapsed = signal(false);
+  isMobile = signal(false);
+
+  constructor(private breakpointObserver: BreakpointObserver){
+    this.breakpointObserver.observe([Breakpoints.Handset,Breakpoints.Tablet])
+    .subscribe(result  =>{
+      this.isMobile.set(result.matches);
+      if (result.matches) {
+        this.isCollapsed.set(true);
+      }
+    })
+  }
 
   toggleSidebar() {
     this.isCollapsed.set(!this.isCollapsed());
