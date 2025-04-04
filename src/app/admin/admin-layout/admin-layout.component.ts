@@ -1,20 +1,31 @@
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
+  standalone: true,
   selector: 'app-admin-layout',
-  imports: [CommonModule, SidebarComponent, RouterModule],
   templateUrl: './admin-layout.component.html',
-  styleUrl: './admin-layout.component.scss'
+  styleUrls: ['./admin-layout.component.scss'],
+  imports: [
+    CommonModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterModule,
+    SidebarComponent
+  ]
 })
 export class AdminLayoutComponent {
-
-  isSidebarCollapsed = false;
+  isCollapsed = signal(false);
 
   toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.isCollapsed.set(!this.isCollapsed());
   }
-
 }

@@ -1,28 +1,23 @@
-<!-- Admin Layout Container -->
-<div class="admin-layout">
+<mat-sidenav-container class="admin-container">
   
-    <!-- Sidebar -->
-    <app-sidebar [class.collapsed]="isSidebarCollapsed"></app-sidebar>
-  
-    <!-- Main Content Area -->
-    <div class="content" [class.collapsed]="isSidebarCollapsed">
-      
-      <!-- Toolbar -->
-      <header class="toolbar">
-        <button class="menu-btn" (click)="toggleSidebar()">☰</button>
-        <h1>Admin Dashboard</h1>
-        <div class="user-profile">
-          <span>Welcome, Admin</span>
-          <button class="logout-btn">Logout</button>
-        </div>
-      </header>
-  
-      <!-- Router Outlet (Content) -->
-      <main class="dashboard-content">
-        <router-outlet></router-outlet>
-      </main>
-  
+  <!-- Sidebar -->
+  <mat-sidenav #drawer mode="side" [opened]="!isCollapsed()">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content class="main-content">
+    <mat-toolbar class="admin-toolbar">
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Admin Dashboard</span>
+      <span class="spacer"></span>
+    </mat-toolbar>
+
+    <div class="admin-content">
+      <router-outlet></router-outlet>
     </div>
-  
-  </div>
-  
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

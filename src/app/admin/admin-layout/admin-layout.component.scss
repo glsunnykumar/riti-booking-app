@@ -1,85 +1,38 @@
-.admin-layout {
-    display: flex;
-    height: 100vh;
-  }
-  
-  /* Sidebar */
-  app-sidebar {
-    width: 250px;
-    transition: width 0.3s ease;
-  }
-  
-  /* When Sidebar is Collapsed */
-  app-sidebar.collapsed {
-    width: 60px;
-  }
-  
-  /* Main Content */
-  .content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    transition: margin-left 0.3s ease;
-    margin-left: 250px;
-  }
-  
-  .content.collapsed {
-    margin-left: 60px;
-  }
-  
-  /* Toolbar */
-  .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px; /* Increased padding for better spacing */
-  }
-  
-  .menu-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  
-    span {
-      font-size: 1rem;
-    }
-  
-    .logout-btn {
-      background: #e74c3c;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-  }
-  
-  /* Dashboard Content */
-  .dashboard-content {
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
-  /* Mobile Responsive */
-  @media (max-width: 768px) {
-    app-sidebar {
-      width: 60px;
-    }
-  
-    .content {
-      margin-left: 60px;
-    }
-  
-    .content.collapsed {
-      margin-left: 0;
-    }
-  }
-  
+.admin-container {
+  height: 100vh;
+  display: flex;
+  overflow: hidden; /* Prevents horizontal scrolling */
+}
+
+/* Sidebar */
+mat-sidenav {
+  width: 250px; /* Fixed width */
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+  overflow: auto;
+  background-color: #2c3e50;
+  color: white;
+}
+
+/* Main content */
+mat-sidenav-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: auto;
+}
+
+/* Toolbar */
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+}
+
+.spacer {
+  flex: 1;
+}

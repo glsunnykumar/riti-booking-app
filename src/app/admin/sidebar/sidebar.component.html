@@ -1,17 +1,24 @@
-<!-- Sidebar Container -->
-<div class="sidebar" [class.collapsed]="isCollapsed">
-    <!-- Toggle Button -->
-    <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
-  
-    <!-- Sidebar Logo -->
-    <div class="logo">Admin Panel</div>
-  
-    <!-- Navigation Links -->
-    <ul class="nav-links">
-      <li><a routerLink="/admin/dashboard">Dashboard</a></li>
-      <li><a routerLink="/admin/bookings">Bookings</a></li>
-      <li><a routerLink="/admin/users">Users</a></li>
-      <li><a routerLink="/admin/settings">Settings</a></li>
-    </ul>
-  </div>
-  
+<div class="sidebar">
+  <ul>
+    <li>
+      <a routerLink="/admin/dashboard">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/bookings">
+        <mat-icon>book</mat-icon> Bookings
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/users">
+        <mat-icon>group</mat-icon> Users
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/settings">
+        <mat-icon>settings</mat-icon> Settings
+      </a>
+    </li>
+  </ul>
+</div>
