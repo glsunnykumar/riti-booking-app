@@ -15,6 +15,26 @@ mat-sidenav {
   color: white;
 }
 
+/* Collapsed Sidebar */
+mat-sidenav[closed] {
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: #1c2833;
+}
+
+.sidebar-header mat-icon {
+  color: white;
+  margin-right: 10px;
+}
+
 /* Main content */
 mat-sidenav-content {
   flex-grow: 1;

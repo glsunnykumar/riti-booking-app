@@ -5,16 +5,28 @@
   #drawer 
   [mode]="isMobile() ? 'over' : 'side'"
   [opened]="!isCollapsed()"
-  (closedStart)="isCollapsed.set(true)">
+  (closedStart)="isCollapsed.set(true)" 
+  (openedStart)="isCollapsed.set(false)"
+  
+  >
+
+  
+
+  <!-- Sidebar Content -->
   <app-sidebar></app-sidebar>
+  
 </mat-sidenav>
 
   <!-- Main Content -->
   <mat-sidenav-content class="main-content">
+      <!-- Sidebar Header -->
+  
     <mat-toolbar class="admin-toolbar">
-      <button mat-icon-button (click)="toggleSidebar()">
-        <mat-icon>menu</mat-icon>
-      </button>
+      <div class="sidebar-header">
+        <button mat-icon-button (click)="toggleSidebar()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
       <span>Admin Dashboard</span>
       <span class="spacer"></span>
     </mat-toolbar>
