@@ -23,19 +23,19 @@ export class AdminBookingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookingService.getBookings().subscribe((data) => {
-      this.bookings = data;
-    });
+    // this.bookingService.getBookings().subscribe((data) => {
+    //   this.bookings = data;
+    // });
   }
 
-  updateStatus(bookingId: string, status: 'Pending' | 'Confirmed' | 'Cancelled') {
-    this.bookingService.updateBookingStatus(bookingId, status);
-  }
+  // updateStatus(bookingId: string, status: 'Pending' | 'Confirmed' | 'Cancelled') {
+  //   this.bookingService.updateBookingStatus(bookingId, status);
+  // }
 
-  deleteBooking(bookingId: string) {
-    if (confirm('Are you sure you want to delete this booking?')) {
-      this.bookingService.deleteBooking(bookingId);
-    }
-  }
+  // deleteBooking(bookingId: string) {
+  //   if (confirm('Are you sure you want to delete this booking?')) {
+  //     this.bookingService.deleteBooking(bookingId);
+  //   }
+  // }
 
 }

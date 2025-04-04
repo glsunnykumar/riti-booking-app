@@ -4,13 +4,10 @@ import { Observable } from 'rxjs';
 
 export interface Booking {
   id?: string;
-  name: string;
-  email: string;
-  phone: string;
-  service: string;
+  customerName: string;
   date: string;
-  time: string;
-  status: 'Pending' | 'Confirmed' | 'Cancelled';  // New status field
+  status: 'pending' | 'completed' | 'cancelled';
+  amount: number;
 }
 
 
@@ -24,32 +21,27 @@ export class BookingService {
   private bookingCollection = collection(this.firestore, 'bookings');
 
   constructor() { }
-
-  async addBooking(booking: Booking) {
-    try {
-      await addDoc(this.bookingCollection, booking);
-      console.log('Booking successfully added!');
-    } catch (error) {
-      console.error('Error adding booking:', error);
-    }
-  }
-
-   // Get all bookings
-   getBookings(): Observable<Booking[]> {
+  
+  // Get all bookings from Firestore
+  getAllBookings(): Observable<Booking[]> {
     return collectionData(this.bookingCollection, { idField: 'id' }) as Observable<Booking[]>;
   }
 
-  
-  // Update booking status
-  async updateBookingStatus(id: string, status: 'Pending' | 'Confirmed' | 'Cancelled') {
-    const bookingRef = doc(this.firestore, `bookings/${id}`);
-    await updateDoc(bookingRef, { status });
+  // Create a new booking
+  addBooking(booking: Booking) {
+    return addDoc(this.bookingCollection, booking);
   }
 
-  // Delete booking
-  async deleteBooking(id: string) {
-    const bookingRef = doc(this.firestore, `bookings/${id}`);
-    await deleteDoc(bookingRef);
+  // Update booking status
+  updateBooking(bookingId: string, updatedData: Partial<Booking>) {
+    const bookingRef = doc(this.firestore, `bookings/${bookingId}`);
+    return updateDoc(bookingRef, updatedData);
+  }
+
+  // Delete a booking
+  deleteBooking(bookingId: string) {
+    const bookingRef = doc(this.firestore, `bookings/${bookingId}`);
+    return deleteDoc(bookingRef);
   }
 
 }

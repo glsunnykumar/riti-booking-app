@@ -1,0 +1,150 @@
+.dashboard-container {
+    padding: 20px;
+  }
+  
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .summary-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+    
+    mat-icon {
+      font-size: 40px;
+      color: #1976d2;
+    }
+  
+    .info {
+      h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+  
+      p {
+        margin: 0;
+        color: gray;
+      }
+    }
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .mat-icon-button {
+    color: #1976d2;
+  }
+  .dashboard-container {
+    padding: 20px;
+  }
+  
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .summary-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  
+    mat-icon {
+      font-size: 40px;
+      color: #1976d2;
+    }
+  
+    .info {
+      h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+  
+      p {
+        margin: 0;
+        color: gray;
+      }
+    }
+  }
+  
+  /* Mobile-Friendly */
+  @media (max-width: 768px) {
+    .summary-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    table {
+      overflow-x: auto;
+      display: block;
+    }
+  }
+  .dashboard-container {
+    padding: 20px;
+  }
+  
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .summary-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  
+    mat-icon {
+      font-size: 40px;
+      color: #1976d2;
+    }
+  
+    .info {
+      h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+  
+      p {
+        margin: 0;
+        color: gray;
+      }
+    }
+  }
+  
+  /* Mobile-Friendly */
+  @media (max-width: 768px) {
+    .summary-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    table {
+      overflow-x: auto;
+      display: block;
+    }
+  }
+    
