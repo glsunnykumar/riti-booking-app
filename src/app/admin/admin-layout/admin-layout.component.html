@@ -1,5 +1,14 @@
+
+<mat-toolbar class="admin-toolbar">
+  <div class="sidebar-header">
+    <button mat-icon-button (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <span>Admin Dashboard</span>
+  <span class="spacer"></span>
+</mat-toolbar>
 <mat-sidenav-container class="admin-container">
-  
   <!-- Sidebar -->
   <mat-sidenav 
   #drawer 
@@ -9,9 +18,6 @@
   (openedStart)="isCollapsed.set(false)"
   
   >
-
-  
-
   <!-- Sidebar Content -->
   <app-sidebar></app-sidebar>
   
@@ -19,18 +25,6 @@
 
   <!-- Main Content -->
   <mat-sidenav-content class="main-content">
-      <!-- Sidebar Header -->
-  
-    <mat-toolbar class="admin-toolbar">
-      <div class="sidebar-header">
-        <button mat-icon-button (click)="toggleSidebar()">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </div>
-      <span>Admin Dashboard</span>
-      <span class="spacer"></span>
-    </mat-toolbar>
-
     <div class="admin-content">
       <router-outlet></router-outlet>
     </div>
