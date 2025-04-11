@@ -1,0 +1,40 @@
+
+<h2 mat-dialog-title>Edit Booking</h2>
+
+<form [formGroup]="bookingForm" class="dialog-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput type="date" formControlName="date">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Time</mat-label>
+    <input matInput type="time" formControlName="time">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="confirmed">Confirmed</mat-option>
+      <mat-option value="cancelled">Cancelled</mat-option>
+      <mat-option value="completed">Completed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="dialog-actions">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
+  </div>
+</form>
+

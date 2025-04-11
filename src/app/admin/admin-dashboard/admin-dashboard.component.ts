@@ -7,6 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 import { BookingService } from '../../services/booking/booking.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { EditBookingDialogComponent } from '../../features/edit-booking-dialog/edit-booking-dialog.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../features/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -17,7 +21,8 @@ import { BookingService } from '../../services/booking/booking.service';
     MatTableModule,
     MatButtonModule,
     MatDividerModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule
   ],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
@@ -33,8 +38,40 @@ export class AdminDashboardComponent {
 
   recentBookings = signal<any[]>([]);
 
-  constructor(){
+  constructor(private dialog: MatDialog,private breakpointObserver: BreakpointObserver){
     this.fetchDashboardData();
+  }
+
+  openEditDialog(booking: any): void {
+    const isSmallScreen = this.breakpointObserver.isMatched(Breakpoints.Handset);
+    
+    const dialogRef = this.dialog.open(EditBookingDialogComponent, {
+      width: '400px',
+      data: booking
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // handle the update
+        console.log('Updated Booking:', result);
+      }
+    });
+  }
+
+  openConfirmDialog(booking: any): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: `Are you sure you want to delete the booking for ${booking.name}?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        // handle the delete
+        console.log('Booking deleted:', booking.id);
+      }
+    });
   }
 
 

@@ -61,8 +61,12 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let booking">
-          <button mat-icon-button>
-            <mat-icon>visibility</mat-icon>
+          <button mat-icon-button color="primary" (click)="openEditDialog(booking)">
+            <mat-icon>edit</mat-icon>
+          </button>
+      
+          <button mat-icon-button color="warn" (click)="openConfirmDialog(booking)">
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
