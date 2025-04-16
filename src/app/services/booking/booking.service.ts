@@ -44,4 +44,7 @@ export class BookingService {
     return deleteDoc(bookingRef);
   }
 
+
+  
+
 }

@@ -53,6 +53,7 @@ export class AdminDashboardComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // handle the update
+        this.fetchDashboardData(); // Reload updated data
         console.log('Updated Booking:', result);
       }
     });

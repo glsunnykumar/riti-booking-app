@@ -14,16 +14,20 @@
     align-items: center;
     padding: 15px;
     gap: 10px;
+   
     
     mat-icon {
       font-size: 40px;
       color: #1976d2;
+      width: auto;
+      height: auto;
     }
   
     .info {
       h3 {
         margin: 0;
         font-size: 1.5rem;
+        text-align: center;
       }
   
       p {

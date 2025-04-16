@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
+import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
   selector: 'app-edit-booking-dialog',
@@ -31,17 +32,18 @@ export class EditBookingDialogComponent {
   bookingForm: FormGroup;
 
   constructor( private fb: FormBuilder,
+    private bookingService :BookingService,
     public dialogRef: MatDialogRef<EditBookingDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any){
       console.log('data saved is',data);
        // Convert Firestore Timestamp to yyyy-MM-dd format if it exists
-  const formattedDate = data.date?.toDate
-  ? data.date.toDate().toISOString().split('T')[0]
-  : '';
+  // const formattedDate = data.date?.toDate
+  // ? data.date.toDate().toISOString().split('T')[0]
+  // : '';
       this.bookingForm = this.fb.group({
         name: [data.name, Validators.required],
         email: [data.email, [Validators.required, Validators.email]],
-        date: [formattedDate, Validators.required],
+        date: [data.date, Validators.required],
         time: [data.time, Validators.required],
         status: [data.status, Validators.required]
       });
@@ -49,8 +51,11 @@ export class EditBookingDialogComponent {
 
     save() {
       if (this.bookingForm.valid) {
-        const updatedBooking = { ...this.data, ...this.bookingForm.value };
-        this.dialogRef.close(updatedBooking);
+        this.bookingService.updateBooking(this.data.id, this.bookingForm.value)
+          .then(() => {
+            this.dialogRef.close(true); // Notify parent to refresh
+          })
+          .catch(err => console.error('Update Error:', err));
       }
     }
   
