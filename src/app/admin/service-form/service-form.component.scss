@@ -1,0 +1,31 @@
+.service-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  
+    mat-form-field {
+      width: 100%;
+    }
+  
+    .full-width {
+      width: 100%;
+    }
+  
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  
+    @media (max-width: 600px) {
+      .actions {
+        flex-direction: column;
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+  

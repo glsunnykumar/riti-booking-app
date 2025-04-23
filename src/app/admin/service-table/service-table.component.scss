@@ -1,0 +1,35 @@
+.table-container {
+    padding: 20px;
+  }
+  
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  
+  .no-data {
+    text-align: center;
+    margin-top: 40px;
+    font-style: italic;
+    color: gray;
+  }
+  
+  .active {
+    color: green;
+    font-weight: 600;
+  }
+  
+  .inactive {
+    color: red;
+    font-weight: 600;
+  }
+  
