@@ -43,10 +43,10 @@
   </mat-form-field>
   
   <!-- Image URL Field -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Upload Image</mat-label>
-    <input type="file" (change)="onFileSelected($event)" accept="image/*">
-  </mat-form-field>
+  <div class="mat-elevation-z2 p-2 rounded bg-white">
+    <label for="fileUpload" class="mat-label">Upload Image</label><br>
+    <input id="fileUpload" type="file" (change)="onFileSelected($event)" accept="image/*">
+  </div>
       
        
       </form>

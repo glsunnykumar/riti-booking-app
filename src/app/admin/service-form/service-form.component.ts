@@ -16,6 +16,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { ServiceService } from '../../services/service/service.service';
 import { ServiceModel } from '../../models/service.model';
 import { finalize } from 'rxjs/operators';
+import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-service-form',
@@ -34,18 +35,18 @@ import { finalize } from 'rxjs/operators';
 export class ServiceFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private serviceService = inject(ServiceService);
-  private storage = inject(AngularFireStorage);
   private firestore = inject(Firestore);
-
-  dialogRef = inject(MatDialogRef<ServiceFormComponent>);
-  data = inject<ServiceModel>(MAT_DIALOG_DATA);
+ 
 
   @Input() serviceData?: ServiceModel;
 
-  serviceForm!: FormGroup;
-  isEditMode: boolean = false;
+  storage = inject(Storage); // modular injection
   selectedFile: File | null = null;
   downloadURL: string = '';
+    dialogRef = inject(MatDialogRef<ServiceFormComponent>);
+    data = inject<ServiceModel>(MAT_DIALOG_DATA);
+  serviceForm!: FormGroup;
+  isEditMode: boolean = false;
 
 
   ngOnInit(): void {
@@ -66,7 +67,10 @@ export class ServiceFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.serviceForm.valid) {
-      const serviceData = this.serviceForm.value as ServiceModel;
+      const  serviceData = {
+        ...this.serviceForm.value as ServiceModel,
+        imageUrl: this.downloadURL
+      };
 
       if (this.data?.id) {
         // Update existing
@@ -85,16 +89,17 @@ export class ServiceFormComponent implements OnInit {
     this.selectedFile = event.target.files[0];
     if (this.selectedFile) {
       const filePath = `services/${Date.now()}_${this.selectedFile.name}`;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.selectedFile);
+      const fileRef = ref(this.storage, filePath);
   
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            this.downloadURL = url;
-          });
+      uploadBytes(fileRef, this.selectedFile)
+        .then(() => getDownloadURL(fileRef))
+        .then((url) => {
+          this.downloadURL = url;
+          console.log('File uploaded. URL:', url);
         })
-      ).subscribe();
+        .catch((error) => {
+          console.error('Upload failed', error);
+        });
     }
   }
 
