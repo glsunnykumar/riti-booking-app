@@ -3,7 +3,6 @@ import { Booking, BookingService } from '../../services/booking/booking.service'
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
-import { Observable } from 'rxjs';
 import { Firestore } from '@angular/fire/firestore';
 
 @Component({

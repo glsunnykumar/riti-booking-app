@@ -1,5 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/compat/storage'; // or modular API
+import { Firestore } from '@angular/fire/firestore';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ServiceService } from '../../services/service/service.service';
 import { ServiceModel } from '../../models/service.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-form',
@@ -31,6 +34,9 @@ import { ServiceModel } from '../../models/service.model';
 export class ServiceFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private serviceService = inject(ServiceService);
+  private storage = inject(AngularFireStorage);
+  private firestore = inject(Firestore);
+
   dialogRef = inject(MatDialogRef<ServiceFormComponent>);
   data = inject<ServiceModel>(MAT_DIALOG_DATA);
 
@@ -38,6 +44,9 @@ export class ServiceFormComponent implements OnInit {
 
   serviceForm!: FormGroup;
   isEditMode: boolean = false;
+  selectedFile: File | null = null;
+  downloadURL: string = '';
+
 
   ngOnInit(): void {
     this.serviceForm = this.fb.group({
@@ -71,4 +80,23 @@ export class ServiceFormComponent implements OnInit {
     }
  
   }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      const filePath = `services/${Date.now()}_${this.selectedFile.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.selectedFile);
+  
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            this.downloadURL = url;
+          });
+        })
+      ).subscribe();
+    }
+  }
+
+
 }
