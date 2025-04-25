@@ -66,10 +66,10 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('adding the service');
     if (this.serviceForm.valid) {
       const  serviceData = {
-        ...this.serviceForm.value as ServiceModel,
-        imageUrl: this.downloadURL
+        ...this.serviceForm.value as ServiceModel
       };
 
       if (this.data?.id) {
@@ -78,6 +78,7 @@ export class ServiceFormComponent implements OnInit {
           .then(() => this.dialogRef.close(true));
       } else {
         // Create new
+       
         this.serviceService.addService(serviceData)
           .then(() => this.dialogRef.close(true));
       }
