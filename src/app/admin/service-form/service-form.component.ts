@@ -68,8 +68,11 @@ export class ServiceFormComponent implements OnInit {
   onSubmit(): void {
     console.log('adding the service');
     if (this.serviceForm.valid) {
+      const formValue = this.serviceForm.value;
+      const slots = this.generateTimeSlots(+formValue.duration);
       const  serviceData = {
-        ...this.serviceForm.value as ServiceModel
+        ...this.serviceForm.value as ServiceModel,
+        slots
       };
 
       if (this.data?.id) {
@@ -103,6 +106,38 @@ export class ServiceFormComponent implements OnInit {
         });
     }
   }
+
+  generateTimeSlots(duration: number): string[] {
+    const slots: string[] = [];
+    const start = new Date();
+    start.setHours(9, 0, 0, 0);
+  
+    const end = new Date();
+    end.setHours(17, 0, 0, 0);
+  
+    while (start < end) {
+      const lunchStart = new Date();
+      lunchStart.setHours(13, 0, 0, 0);
+      const lunchEnd = new Date();
+      lunchEnd.setHours(14, 0, 0, 0);
+  
+      const slotEnd = new Date(start.getTime() + duration * 60000);
+  
+      if (slotEnd > end) break;
+      if (start >= lunchStart && start < lunchEnd) {
+        start.setTime(lunchEnd.getTime());
+        continue;
+      }
+  
+      const format = (d: Date) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+      slots.push(`${format(start)} - ${format(slotEnd)}`);
+      start.setTime(start.getTime() + duration * 60000);
+    }
+  
+    return slots;
+  }
+  
 
 
 }
