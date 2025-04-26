@@ -35,7 +35,7 @@
 
         <!-- Duration Field -->
 <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Duration (in hours/days)</mat-label>
+    <mat-label>Duration (in minutes)</mat-label>
     <input matInput formControlName="duration" required>
     <mat-error *ngIf="serviceForm.get('duration')?.hasError('required')">
       Duration is required

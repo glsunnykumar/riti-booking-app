@@ -32,11 +32,16 @@
     <!-- Service Selection -->
     <mat-form-field appearance="outline">
       <mat-label>Select Service</mat-label>
+      <div *ngIf="services$ | async as services; else noData">
       <mat-select formControlName="service">
         <mat-option *ngFor="let service of services" [value]="service.name">
           {{ service.name }} - ${{ service.price }}
         </mat-option>
       </mat-select>
+    </div>
+    <ng-template #noData>
+      <p>No services available.</p>
+    </ng-template>
       <mat-error *ngIf="f['service'].touched && f['service'].invalid">
         Please select a service
       </mat-error>

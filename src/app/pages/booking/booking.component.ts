@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { NgIf, NgFor, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,8 +10,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookingService } from '../../services/booking/booking.service';
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore ,collectionData,collection } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
+import { ServiceService } from '../../services/service/service.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
@@ -31,17 +33,14 @@ export class BookingComponent {
   bookingForm: FormGroup;
   userId: string | null = null;
 
-  services = [
-    { name: 'Haircut', price: 20 },
-    { name: 'Spa Treatment', price: 50 },
-    { name: 'Massage', price: 40 }
-  ];
+  services$: Observable<any[]>;
 
   constructor(private fb: FormBuilder,
      private snackBar: MatSnackBar,
      private bookingService: BookingService,
      private firestore: Firestore,
-     private auth: Auth
+     private auth: Auth,
+     private service :ServiceService
     ) {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -58,6 +57,7 @@ export class BookingComponent {
         this.userId = user.uid;
       }
     });
+    this.services$ = this.service.getServices();
   }
 
   get f() {
