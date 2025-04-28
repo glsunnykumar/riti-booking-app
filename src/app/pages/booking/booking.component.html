@@ -30,21 +30,13 @@
     </mat-form-field>
 
     <!-- Service Selection -->
-    <mat-form-field appearance="outline">
-      <mat-label>Select Service</mat-label>
-      <div *ngIf="services$ | async as services; else noData">
+    <mat-form-field appearance="fill">
+      <mat-label>Select an option</mat-label>
       <mat-select formControlName="service">
-        <mat-option *ngFor="let service of services" [value]="service.name">
-          {{ service.name }} - ${{ service.price }}
+        <mat-option *ngFor="let option of services$ | async" [value]="option">
+          {{ option.name }} --- {{option.price}} INR
         </mat-option>
       </mat-select>
-    </div>
-    <ng-template #noData>
-      <p>No services available.</p>
-    </ng-template>
-      <mat-error *ngIf="f['service'].touched && f['service'].invalid">
-        Please select a service
-      </mat-error>
     </mat-form-field>
 
     <!-- Date Picker -->
@@ -58,14 +50,7 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Time -->
-    <mat-form-field appearance="outline">
-      <mat-label>Preferred Time</mat-label>
-      <input matInput type="time" formControlName="time" />
-      <mat-error *ngIf="f['time'].touched && f['time'].invalid">
-        Please select a time
-      </mat-error>
-    </mat-form-field>
+  
 
     <!-- Submit Button -->
     <button mat-raised-button color="primary" type="submit" [disabled]="bookingForm.invalid">

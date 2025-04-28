@@ -13,7 +13,7 @@ import { BookingService } from '../../services/booking/booking.service';
 import { Firestore ,collectionData,collection } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ServiceService } from '../../services/service/service.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-booking',
@@ -34,6 +34,7 @@ export class BookingComponent {
   userId: string | null = null;
 
   services$: Observable<any[]>;
+  options$: Observable<string[]> = of(['Option 1', 'Option 2', 'Option 3']);
 
   constructor(private fb: FormBuilder,
      private snackBar: MatSnackBar,
