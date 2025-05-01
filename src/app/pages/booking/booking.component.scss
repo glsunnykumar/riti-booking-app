@@ -49,6 +49,27 @@ mat-form-field {
   }
 }
 
+.slot-selection {
+  margin-top: 16px;
+
+  .slot-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .slot-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .slot-radio {
+    padding: 4px 12px;
+  }
+}
+
+
 // Button Styling
 button {
   width: 100%;

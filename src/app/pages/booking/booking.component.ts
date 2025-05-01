@@ -10,10 +10,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookingService } from '../../services/booking/booking.service';
-import { Firestore ,collectionData,collection } from '@angular/fire/firestore';
+import { Firestore ,collectionData,collection, query, where, getDocs } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ServiceService } from '../../services/service/service.service';
 import { Observable, of } from 'rxjs';
+import {MatRadioModule} from '@angular/material/radio';
 
 @Component({
   selector: 'app-booking',
@@ -22,7 +23,8 @@ import { Observable, of } from 'rxjs';
     CommonModule, ReactiveFormsModule,
     MatCardModule, MatFormFieldModule, MatInputModule,
     MatSelectModule, MatDatepickerModule, MatNativeDateModule,
-    MatButtonModule, MatSnackBarModule
+    MatButtonModule, MatSnackBarModule,
+    MatRadioModule
   ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
@@ -34,7 +36,8 @@ export class BookingComponent {
   userId: string | null = null;
 
   services$: Observable<any[]>;
-  options$: Observable<string[]> = of(['Option 1', 'Option 2', 'Option 3']);
+  selectedServiceSlots: string[] = [];
+
 
   constructor(private fb: FormBuilder,
      private snackBar: MatSnackBar,
@@ -49,7 +52,7 @@ export class BookingComponent {
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       service: ['', Validators.required],
       date: ['', Validators.required],
-      time: ['', Validators.required]
+      slot: ['', Validators.required],
     });
 
      // Fetch logged-in user ID
@@ -67,14 +70,14 @@ export class BookingComponent {
 
   async submitBooking() {
     if (this.bookingForm.valid) {
-
+      console.log('booking form is valid');
       const bookingData = {
         ...this.bookingForm.value,
-        userId: this.userId, // Store user ID
-        status: 'pending', // Default status
-        createdAt: new Date()
+        // userId: this.userId, // Store user ID
+        // status: 'pending', // Default status
+        // createdAt: new Date()
       };
-
+      console.log('booking form is not valid',bookingData);
       await this.bookingService.addBooking(bookingData);
       alert('Booking Confirmed!');
       this.bookingForm.reset();
@@ -107,6 +110,17 @@ export class BookingComponent {
     // }
   }
 
+  onServiceChange(serviceName: string) {
+    console.log('service name is',serviceName);
+    const servicesRef = collection(this.firestore, 'services');
+    const q = query(servicesRef, where('name', '==', serviceName));
+    
+    getDocs(q).then(snapshot => {
+      const serviceData = snapshot.docs[0]?.data();
+      this.selectedServiceSlots = serviceData?.['slots'] || [];
+      console.log('changing the service event fired',this.selectedServiceSlots);
+    });
+  }
 
 
 }

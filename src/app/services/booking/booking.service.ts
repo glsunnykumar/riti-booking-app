@@ -27,9 +27,11 @@ export class BookingService {
     return collectionData(this.bookingCollection, { idField: 'id' }) as Observable<Booking[]>;
   }
 
-  // Create a new booking
   addBooking(booking: Booking) {
-    return addDoc(this.bookingCollection, booking);
+    return addDoc(this.bookingCollection, booking).catch(error => {
+      console.error('Firestore addDoc error:', error);
+      throw error;
+    });
   }
 
   // Update booking status
