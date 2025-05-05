@@ -73,9 +73,9 @@ export class BookingComponent {
       console.log('booking form is valid');
       const bookingData = {
         ...this.bookingForm.value,
-        // userId: this.userId, // Store user ID
-        // status: 'pending', // Default status
-        // createdAt: new Date()
+        userId: this.userId, // Store user ID
+        status: 'pending', // Default status
+        createdAt: new Date()
       };
       console.log('booking form is not valid',bookingData);
       await this.bookingService.addBooking(bookingData);
