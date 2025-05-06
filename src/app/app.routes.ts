@@ -10,7 +10,8 @@ import { ServiceTableComponent } from './admin/service-table/service-table.compo
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'booking', component: BookingComponent },
+    {path :'home',component : HomeComponent},
+    { path: 'bookings', component: BookingComponent },
     {
         path: 'admin',
         component: AdminLayoutComponent,
