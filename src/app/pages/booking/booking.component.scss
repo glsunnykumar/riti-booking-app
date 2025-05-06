@@ -1,108 +1,69 @@
-// Global Styling for Booking Card
-.booking-card {
-  max-width: 450px;
+.booking-form {
+  max-width: 500px;
   margin: 40px auto;
-  padding: 25px;
+  padding: 30px 24px;
   border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-// Title Styling
-h2 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-// Material Form Fields Styling
-mat-form-field {
-  width: 100%;
-  margin-bottom: 16px;
-  background: #f8f9fa;
-  border-radius: 8px;
-
-  .mat-mdc-form-field-wrapper {
-    padding: 8px;
+  .form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #333;
   }
 
-  .mat-mdc-input-element {
-    font-size: 1rem;
-    padding: 10px;
-  }
+  .form-field {
+    margin-bottom: 20px;
 
-  .mat-mdc-select {
-    font-size: 1rem;
+    mat-form-field {
+      width: 100%;
+    }
   }
-
-  .mat-mdc-form-field-flex {
-    border-radius: 8px;
-  }
-
-  // Error Message Styling
-  .mat-mdc-form-field-error {
-    font-size: 0.85rem;
-    color: #d32f2f;
-    font-weight: 500;
-  }
-}
-
-.slot-selection {
-  margin-top: 16px;
 
   .slot-label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 8px;
+    font-weight: 600;
+    margin: 10px 0;
+    font-size: 16px;
   }
 
   .slot-radio-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+
+    mat-radio-button {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+      transition: 0.3s ease;
+      width: 100%;
+
+      &:hover {
+        background-color: #e8f0fe;
+        border-color: #4285f4;
+      }
+
+      &.mat-radio-checked {
+        background-color: #e0f7fa;
+        border-color: #00acc1;
+      }
+    }
+  }
+
+  .form-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
   }
 
-  .slot-radio {
-    padding: 4px 12px;
-  }
-}
-
-
-// Button Styling
-button {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 8px;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-
-  &.mat-mdc-raised-button {
-    background: #007bff;
-    color: white;
-  }
-
-  &:hover {
-    background: #0056b3;
-  }
-
-  &:disabled {
-    background: #cccccc;
-    cursor: not-allowed;
-  }
-}
-
-// Responsive Design for Smaller Screens
-@media (max-width: 600px) {
-  .booking-card {
-    max-width: 90%;
+  @media (max-width: 600px) {
     padding: 20px;
-  }
 
-  h2 {
-    font-size: 1.6rem;
+    .slot-radio-group {
+      grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    }
   }
 }
