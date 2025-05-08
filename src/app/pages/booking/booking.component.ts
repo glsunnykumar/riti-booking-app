@@ -13,7 +13,7 @@ import { BookingService } from '../../services/booking/booking.service';
 import { Firestore ,collectionData,collection, query, where, getDocs } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ServiceService } from '../../services/service/service.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {MatRadioModule} from '@angular/material/radio';
 
 @Component({

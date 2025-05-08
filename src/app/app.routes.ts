@@ -7,11 +7,13 @@ import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.componen
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { ServiceFormComponent } from './admin/service-form/service-form.component';
 import { ServiceTableComponent } from './admin/service-table/service-table.component';
+import { ServiceComponent } from './pages/service/service.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     {path :'home',component : HomeComponent},
     { path: 'bookings', component: BookingComponent },
+    { path: 'services', component: ServiceComponent },
     {
         path: 'admin',
         component: AdminLayoutComponent,
