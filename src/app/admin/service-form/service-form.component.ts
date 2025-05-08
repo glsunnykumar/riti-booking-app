@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ServiceService } from '../../services/service/service.service';
 import { ServiceModel } from '../../models/service.model';
-import { finalize } from 'rxjs/operators';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 
 @Component({
@@ -42,9 +41,10 @@ export class ServiceFormComponent implements OnInit {
 
   storage = inject(Storage); // modular injection
   selectedFile: File | null = null;
+  imagePreviewUrl: string | null = null;
   downloadURL: string = '';
-    dialogRef = inject(MatDialogRef<ServiceFormComponent>);
-    data = inject<ServiceModel>(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef<ServiceFormComponent>);
+  data = inject<ServiceModel>(MAT_DIALOG_DATA);
   serviceForm!: FormGroup;
   isEditMode: boolean = false;
 
@@ -55,7 +55,7 @@ export class ServiceFormComponent implements OnInit {
       description: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(1)]],
       duration: ['', Validators.required],
-      imageUrl: [''],
+      image: [null], // not strictly required, but can be used to track file
       status: [true, Validators.required],
     });
 
@@ -90,20 +90,13 @@ export class ServiceFormComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile) {
-      const filePath = `services/${Date.now()}_${this.selectedFile.name}`;
-      const fileRef = ref(this.storage, filePath);
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
   
-      uploadBytes(fileRef, this.selectedFile)
-        .then(() => getDownloadURL(fileRef))
-        .then((url) => {
-          this.downloadURL = url;
-          console.log('File uploaded. URL:', url);
-        })
-        .catch((error) => {
-          console.error('Upload failed', error);
-        });
+      const reader = new FileReader();
+      reader.onload = () => this.imagePreviewUrl = reader.result as string;
+      reader.readAsDataURL(file);
     }
   }
 

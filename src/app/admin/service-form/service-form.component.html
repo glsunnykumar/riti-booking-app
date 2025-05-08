@@ -12,6 +12,31 @@
           </mat-error>
         </mat-form-field>
       
+        <div class="file-upload-container full-width">
+          <label for="fileUpload">Upload Service Image</label>
+        
+          <!-- Hidden File Input -->
+          <input
+            type="file"
+            #fileInput
+            id="fileUpload"
+            hidden
+            (change)="onFileSelected($event)"
+            accept="image/*"
+          >
+        
+          <!-- Styled Button -->
+          <button mat-raised-button color="primary" type="button" (click)="fileInput.click()">
+            Choose File
+          </button>
+        
+          <!-- Show file name if selected -->
+          <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        
+          <!-- Optional preview -->
+          <img *ngIf="imagePreviewUrl" [src]="imagePreviewUrl" class="image-preview">
+        </div>
+
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="description" rows="3"></textarea>
