@@ -10,11 +10,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookingService } from '../../services/booking/booking.service';
-import { Firestore ,collectionData,collection, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore ,collectionData,collection, query, where, getDocs, documentId } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ServiceService } from '../../services/service/service.service';
 import { Observable } from 'rxjs';
 import {MatRadioModule} from '@angular/material/radio';
+import { ActivatedRoute } from '@angular/router';
+import { ServiceModel } from '../../models/service.model';
 
 @Component({
   selector: 'app-booking',
@@ -37,6 +39,8 @@ export class BookingComponent {
 
   services$: Observable<any[]>;
   selectedServiceSlots: string[] = [];
+  selectedServiceId: string = '';
+  selectedService: ServiceModel | undefined;
 
 
   constructor(private fb: FormBuilder,
@@ -44,7 +48,8 @@ export class BookingComponent {
      private bookingService: BookingService,
      private firestore: Firestore,
      private auth: Auth,
-     private service :ServiceService
+     private service :ServiceService,
+     private route: ActivatedRoute
     ) {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -62,7 +67,36 @@ export class BookingComponent {
       }
     });
     this.services$ = this.service.getServices();
+    this.route.queryParams.subscribe(params => {
+    this.selectedServiceId = params['id'];
+    if(this.selectedServiceId){
+this.setSelectedService();
+this.bookingForm.get('service')?.disable(); // disables the dropdown
+
+    }
+    
+  });
   }
+
+  ngOnInit() {
+ 
+}
+
+setSelectedService() {
+  this.services$.subscribe(services => {
+    this.selectedService = services.find(service => service.id === this.selectedServiceId);
+
+    if (this.selectedService) {
+      console.log('patching the service id',this.selectedService.id)
+      this.bookingForm.patchValue({
+        service: this.selectedService.id  // or name, depending on formControl value binding
+      });
+       this.onServiceChange(this.selectedService.name);
+
+    }
+  });
+}
+
 
   get f() {
     return this.bookingForm.controls;
@@ -110,10 +144,11 @@ export class BookingComponent {
     // }
   }
 
-  onServiceChange(serviceName: string) {
-    console.log('service name is',serviceName);
+  onServiceChange(serviceId: string) {
+    console.log('service name is',serviceId);
     const servicesRef = collection(this.firestore, 'services');
-    const q = query(servicesRef, where('name', '==', serviceName));
+    const q = query(servicesRef, where(documentId(), '==', serviceId));
+
     
     getDocs(q).then(snapshot => {
       const serviceData = snapshot.docs[0]?.data();

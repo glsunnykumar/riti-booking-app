@@ -39,11 +39,12 @@
     <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Select an option</mat-label>
-      <mat-select formControlName="service" (selectionChange)="onServiceChange($event.value.name)">
-        <mat-option *ngFor="let option of services$ | async" [value]="option">
-          {{ option.name }} --- {{option.price}} INR
-        </mat-option>
+      <mat-select formControlName="service" (selectionChange)="onServiceChange($event.value)">
+         <mat-option *ngFor="let service of services$ | async" [value]="service.id">
+      {{ service.name }} - ${{ service.price }}
+    </mat-option>
       </mat-select>
+      
     </mat-form-field>
     </div>
 
