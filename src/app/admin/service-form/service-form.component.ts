@@ -16,6 +16,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { ServiceService } from '../../services/service/service.service';
 import { ServiceModel } from '../../models/service.model';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { ImageUploadService } from '../../services/image-upload/image-upload.service';
 
 @Component({
   selector: 'app-service-form',
@@ -34,7 +35,7 @@ import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage
 export class ServiceFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private serviceService = inject(ServiceService);
-  private firestore = inject(Firestore);
+  private imageUploadService = inject(ImageUploadService);
  
 
   @Input() serviceData?: ServiceModel;
@@ -65,13 +66,19 @@ export class ServiceFormComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  async onSubmit() {
     console.log('adding the service');
     if (this.serviceForm.valid) {
       const formValue = this.serviceForm.value;
       const slots = this.generateTimeSlots(+formValue.duration);
+      let imageUrl: string | null = null;
+      if (this.selectedFile) {
+        const filePath = `services/${this.selectedFile.name}`;
+        imageUrl = await this.imageUploadService.uploadImage(this.selectedFile, filePath);
+      }
       const  serviceData = {
         ...this.serviceForm.value as ServiceModel,
+        imageUrl: imageUrl ?? null,
         slots
       };
 

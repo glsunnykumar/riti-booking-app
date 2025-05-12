@@ -4,7 +4,7 @@ export interface ServiceModel {
     description: string;
     price: number;
     duration: string;
-    imageUrl?: string;
+    imageUrl?: string | null;
     isActive: boolean;
     createdAt?: any;
   }
