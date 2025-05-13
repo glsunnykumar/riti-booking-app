@@ -10,7 +10,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookingService } from '../../services/booking/booking.service';
-import { Firestore ,collectionData,collection, query, where, getDocs, documentId } from '@angular/fire/firestore';
+import { Firestore ,collectionData,collection, query, where, getDocs, documentId, doc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ServiceService } from '../../services/service/service.service';
 import { Observable } from 'rxjs';
@@ -145,17 +145,35 @@ setSelectedService() {
   }
 
   onServiceChange(serviceId: string) {
-    console.log('service name is',serviceId);
-    const servicesRef = collection(this.firestore, 'services');
-    const q = query(servicesRef, where(documentId(), '==', serviceId));
+     this.selectedServiceId = serviceId;
+    // console.log('service name is',serviceId);
+    // const servicesRef = collection(this.firestore, 'services');
+    // const q = query(servicesRef, where(documentId(), '==', serviceId));
 
     
-    getDocs(q).then(snapshot => {
-      const serviceData = snapshot.docs[0]?.data();
-      this.selectedServiceSlots = serviceData?.['slots'] || [];
-      console.log('changing the service event fired',this.selectedServiceSlots);
-    });
+    // getDocs(q).then(snapshot => {
+    //   const serviceData = snapshot.docs[0]?.data();
+    //   this.selectedServiceSlots = serviceData?.['slots'] || [];
+    //   console.log('changing the service event fired',this.selectedServiceSlots);
+    // });
   }
+
+  onDateChange(serviceId: string, date: Date) {
+  if (!serviceId || !date) return;
+
+  const docRef = doc(this.firestore, 'services', serviceId);
+  getDoc(docRef).then(docSnap => {
+    if (docSnap.exists()) {
+      const serviceData = docSnap.data();
+      this.selectedServiceSlots = serviceData?.['slots'] || [];
+      console.log('Slots for', serviceId, 'on', date, ':', this.selectedServiceSlots);
+      // Optional: Filter slots by date if needed
+    } else {
+      console.log('No such service found!');
+    }
+  });
+}
+
 
 
 }

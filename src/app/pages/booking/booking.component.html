@@ -52,7 +52,9 @@
     <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Select Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" />
+      <input matInput [matDatepicker]="picker" formControlName="date"
+      (dateChange)="onDateChange(selectedServiceId, $event.value)"
+      [min]="minDate" />
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="f['date'].touched && f['date'].invalid">
