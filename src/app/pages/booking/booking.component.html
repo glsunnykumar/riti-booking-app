@@ -63,13 +63,20 @@
     </mat-form-field>
     </div>
 
-     <div *ngIf="selectedServiceSlots.length > 0"  class="slot-selection">
+    <div *ngIf="selectedServiceSlots.length > 0">
       <label>Available Slots</label>
-      <mat-radio-group formControlName="slot">
-        <mat-radio-button *ngFor="let slot of selectedServiceSlots" [value]="slot">
-          {{ slot }}
-        </mat-radio-button>
-      </mat-radio-group>
+       <mat-radio-group formControlName="slot">
+  <mat-radio-button
+    *ngFor="let slot of selectedServiceSlots"
+    [value]="slot.time"
+    [disabled]="slot.isBooked"
+    class="custom-radio-button"
+  >
+   <div [ngClass]="slot.isBooked ? 'booked-slot' : 'available-slot'">
+    {{ slot.time }}
+  </div>
+  </mat-radio-button>
+</mat-radio-group>
     </div>
   
 
