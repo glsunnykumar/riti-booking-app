@@ -1,8 +1,7 @@
+<form [formGroup]="bookingForm" class="booking-form" (ngSubmit)="submitBooking()">
 
-  <form [formGroup]="bookingForm" class="booking-form" (ngSubmit)="submitBooking()">
-    
-    <!-- Name -->
-    <div class="form-field">
+  <!-- Name -->
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
@@ -10,12 +9,12 @@
         Name is required (Min 3 characters)
       </mat-error>
     </mat-form-field>
-    </div>
+  </div>
 
 
 
-    <!-- Email -->
-    <div class="form-field">
+  <!-- Email -->
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" />
@@ -23,9 +22,9 @@
         Please enter a valid email
       </mat-error>
     </mat-form-field>
-    </div>
-    <!-- Phone -->
-    <div class="form-field">
+  </div>
+  <!-- Phone -->
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Phone</mat-label>
       <input matInput type="tel" formControlName="phone" />
@@ -33,58 +32,63 @@
         Phone must be 10 digits
       </mat-error>
     </mat-form-field>
-    </div>
+  </div>
 
-    <!-- Service Selection -->
-    <div class="form-field">
+  <!-- Service Selection -->
+  <div class="form-field">
     <mat-form-field appearance="fill">
       <mat-label>Select an option</mat-label>
       <mat-select formControlName="service" (selectionChange)="onServiceChange($event.value)">
-         <mat-option *ngFor="let service of services$ | async" [value]="service.id">
-      {{ service.name }} - ${{ service.price }}
-    </mat-option>
+        <mat-option *ngFor="let service of services$ | async" [value]="service.id">
+          {{ service.name }} - ${{ service.price }}
+        </mat-option>
       </mat-select>
-      
-    </mat-form-field>
-    </div>
 
-    <!-- Date Picker -->
-    <div class="form-field">
+    </mat-form-field>
+  </div>
+
+  <!-- Date Picker -->
+  <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Select Date</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="date"
-      (dateChange)="onDateChange(selectedServiceId, $event.value)"
-      [min]="minDate" />
+        (dateChange)="onDateChange(selectedServiceId, $event.value)" [min]="minDate" />
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="f['date'].touched && f['date'].invalid">
         Please select a date
       </mat-error>
     </mat-form-field>
-    </div>
-
-    <div *ngIf="selectedServiceSlots.length > 0">
-      <label>Available Slots</label>
-       <mat-radio-group formControlName="slot">
-  <mat-radio-button
-    *ngFor="let slot of selectedServiceSlots"
-    [value]="slot.time"
-    [disabled]="slot.isBooked"
-    class="custom-radio-button"
-  >
-   <div [ngClass]="slot.isBooked ? 'booked-slot' : 'available-slot'">
-    {{ slot.time }}
   </div>
-  </mat-radio-button>
-</mat-radio-group>
-    </div>
-  
 
-    <!-- Submit Button -->
-    <div class="form-actions">
+  <div class="chip-container">
+    <label>Available Slots</label>
+    <mat-chip-set>
+      <mat-chip *ngFor="let slot of selectedServiceSlots" [class.booked-chip]="slot.isBooked"
+        [class.available-chip]="!slot.isBooked" [class.selected-chip]="selectedSlot === slot.time"
+        (click)="selectSlot(slot)" [disabled]="slot.isBooked" selectable="false" removable="false">
+        {{ slot.time }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+
+  <!-- <div *ngIf="selectedServiceSlots.length > 0">
+    <label>Available Slots</label>
+    <mat-radio-group formControlName="slot">
+      <mat-radio-button *ngFor="let slot of selectedServiceSlots" [value]="slot.time" [disabled]="slot.isBooked"
+        class="custom-radio-button">
+        <div [ngClass]="slot.isBooked ? 'booked-slot' : 'available-slot'">
+          {{ slot.time }}
+        </div>
+      </mat-radio-button>
+    </mat-radio-group>
+  </div> -->
+
+
+  <!-- Submit Button -->
+  <div class="form-actions">
     <button mat-raised-button color="primary" type="submit" [disabled]="bookingForm.invalid">
       Confirm Booking
     </button>
-    </div>
-
-
+  </div>

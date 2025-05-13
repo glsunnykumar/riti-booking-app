@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BookingService } from '../../services/booking/booking.service';
+import { MatChipsModule } from '@angular/material/chips';
 import {
   Firestore,
   collectionData,
@@ -32,6 +33,7 @@ import { Observable } from 'rxjs';
 import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceModel } from '../../models/service.model';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-booking',
@@ -48,6 +50,8 @@ import { ServiceModel } from '../../models/service.model';
     MatButtonModule,
     MatSnackBarModule,
     MatRadioModule,
+    MatChipsModule ,
+    MatIconModule
   ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
@@ -61,6 +65,10 @@ export class BookingComponent {
   selectedServiceSlots: { time: string; isBooked: boolean }[] = [];
   selectedServiceId: string = '';
   selectedService: ServiceModel | undefined;
+
+  selectedSlot: string | null = null;
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -95,6 +103,13 @@ export class BookingComponent {
       }
     });
   }
+
+  selectSlot(slot: { time: string; isBooked: boolean }) {
+  if (!slot.isBooked) {
+    this.selectedSlot = slot.time;
+    this.bookingForm.get('slot')?.setValue(slot.time); // assuming formControlName="slot"
+  }
+}
 
   ngOnInit() {}
 
