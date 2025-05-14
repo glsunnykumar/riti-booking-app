@@ -61,6 +61,11 @@
     </mat-form-field>
   </div>
 
+  <div *ngIf="isLoadingSlots" class="slot-loader-container">
+  <mat-spinner diameter="30"></mat-spinner>
+</div>
+
+  <ng-container *ngIf="!isLoadingSlots">
   <div class="chip-container" *ngIf="selectedServiceSlots.length>0">
     <label>Available Slots</label>
     <mat-chip-set>
@@ -84,7 +89,7 @@
 </div>
   </div>
 
-
+ </ng-container>
 
   <!-- <div *ngIf="selectedServiceSlots.length > 0">
     <label>Available Slots</label>

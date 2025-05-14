@@ -97,6 +97,14 @@
   border: 2px solid #2196f3;
 }
 
+.slot-loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+
 
 ::ng-deep .mat-radio-button.custom-radio-button .booked-slot {
   background-color: #ffcaca; /* light red */

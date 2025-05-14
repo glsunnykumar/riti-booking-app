@@ -34,6 +34,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceModel } from '../../models/service.model';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-booking',
@@ -51,7 +52,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatSnackBarModule,
     MatRadioModule,
     MatChipsModule ,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
@@ -67,6 +69,7 @@ export class BookingComponent {
   selectedService: ServiceModel | undefined;
 
   selectedSlot: string | null = null;
+  isLoadingSlots: boolean = false;
 
 
 
@@ -188,6 +191,8 @@ export class BookingComponent {
   onDateChange(serviceId: string, date: Date) {
     if (!serviceId || !date) return;
 
+     this.isLoadingSlots = true;
+
     const selectedDateStr = date.toISOString().split('T')[0];
     console.log('date for booking', date);
 
@@ -213,19 +218,14 @@ export class BookingComponent {
           time: slot,
           isBooked: bookedSlots.includes(slot),
         }));
-
-        console.log(
-          'Slots for',
-          serviceId,
-          'on',
-          date,
-          ':',
-          this.selectedServiceSlots
-        );
-        // Optional: Filter slots by date if needed
+      
       } else {
         console.log('No such service found!');
       }
-    });
+      this.isLoadingSlots = false;
+    }).catch(error => {
+    console.error('Error loading slots:', error);
+    this.isLoadingSlots = false;
+  });
   }
 }
