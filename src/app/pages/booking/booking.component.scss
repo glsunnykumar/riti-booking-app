@@ -61,6 +61,43 @@
 }
 
 
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;;
+  margin-bottom: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.legend-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.available-box {
+  background-color: #caffca;
+}
+
+.booked-box {
+  background-color: #ffcaca;
+}
+
+.selected-box {
+  background-color: #bbdefb;
+  border: 2px solid #2196f3;
+}
+
+
 ::ng-deep .mat-radio-button.custom-radio-button .booked-slot {
   background-color: #ffcaca; /* light red */
   padding: 10px;

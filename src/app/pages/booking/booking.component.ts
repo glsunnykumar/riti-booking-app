@@ -82,7 +82,9 @@ export class BookingComponent {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      phone: ['', [Validators.required,
+          Validators.pattern(/^\d{10}$/) ]// Exactly 10 digits]
+        ],
       service: ['', Validators.required],
       date: ['', Validators.required],
       slot: ['', Validators.required],

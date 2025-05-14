@@ -27,7 +27,7 @@
   <div class="form-field">
     <mat-form-field appearance="outline">
       <mat-label>Phone</mat-label>
-      <input matInput type="tel" formControlName="phone" />
+      <input matInput type="tel" formControlName="phone"  maxlength="10" />
       <mat-error *ngIf="f['phone'].touched && f['phone'].invalid">
         Phone must be 10 digits
       </mat-error>
@@ -61,7 +61,7 @@
     </mat-form-field>
   </div>
 
-  <div class="chip-container">
+  <div class="chip-container" *ngIf="selectedServiceSlots.length>0">
     <label>Available Slots</label>
     <mat-chip-set>
       <mat-chip *ngFor="let slot of selectedServiceSlots" [class.booked-chip]="slot.isBooked"
@@ -70,7 +70,20 @@
         {{ slot.time }}
       </mat-chip>
     </mat-chip-set>
+
+      <div class="legend">
+  <div class="legend-item">
+    <span class="legend-box available-box"></span> Available
   </div>
+  <div class="legend-item">
+    <span class="legend-box booked-box"></span> Booked
+  </div>
+  <div class="legend-item">
+    <span class="legend-box selected-box"></span> Selected
+  </div>
+</div>
+  </div>
+
 
 
   <!-- <div *ngIf="selectedServiceSlots.length > 0">
