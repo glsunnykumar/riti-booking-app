@@ -28,7 +28,9 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+               "src/assets/js/razorpay-checkout.js"
+            ]
           },
           "configurations": {
             "production": {
