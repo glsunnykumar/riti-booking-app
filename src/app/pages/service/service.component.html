@@ -4,7 +4,7 @@
     <div class="service-grid">
       <mat-card class="service-card" *ngFor="let service of services$ | async">
         <div class="image-wrapper">
-          <img [src]="service.imageUrl" alt="{{ service.name }}" />
+          <!-- <img [src]="service.imageUrl" alt="{{ service.name }}" /> -->
         </div>
         <mat-card-content class="card-content">
           <h3>{{ service.name }}</h3>

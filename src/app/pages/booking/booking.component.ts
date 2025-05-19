@@ -100,6 +100,7 @@ export class BookingComponent {
       }
     });
     this.services$ = this.service.getServices();
+    console.log('grtting the service',this.services$);
     this.route.queryParams.subscribe((params) => {
       this.selectedServiceId = params['id'];
       if (this.selectedServiceId) {

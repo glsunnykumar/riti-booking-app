@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, doc, docData, Firestore, addDoc, deleteDoc, updateDoc, setDoc } from '@angular/fire/firestore';
+import { collection, collectionData, doc, docData, Firestore, addDoc, deleteDoc, updateDoc, setDoc, getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { ServiceModel } from '../../models/service.model';
 //import { docSnapshots } from 'rxfire/firestore';
@@ -23,8 +23,14 @@ export class ServiceService {
     });
   }
 
+  async debugOnce() {
+  const snapshot = await getDocs(this.serviceCollection);
+  snapshot.forEach(doc => console.log(doc.id, doc.data()));
+}
+
    // Get all Services
    getServices(): Observable<ServiceModel[]> {
+    this.debugOnce();
     return collectionData(this.serviceCollection, {
       idField: 'id',
     }) as Observable<ServiceModel[]>;

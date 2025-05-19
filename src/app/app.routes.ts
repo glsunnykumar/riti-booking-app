@@ -8,21 +8,23 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
 import { ServiceFormComponent } from './admin/service-form/service-form.component';
 import { ServiceTableComponent } from './admin/service-table/service-table.component';
 import { ServiceComponent } from './pages/service/service.component';
+import { TestComponent } from './pages/test/test.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    {path :'home',component : HomeComponent},
-    { path: 'bookings', component: BookingComponent },
-    { path: 'services', component: ServiceComponent },
-    {
-        path: 'admin',
-        component: AdminLayoutComponent,
-        canActivate: [AdminGuard],
-        children: [
-            { path: 'dashboard', component: AdminDashboardComponent },
-          { path: 'bookings', component: AdminBookingComponent },
-          {path: 'services',component :ServiceTableComponent},
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-        ]
-      },
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'bookings', component: BookingComponent },
+  { path: 'services', component: ServiceComponent },
+  { path: 'test', component: TestComponent },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    canActivate: [AdminGuard],
+    children: [
+      { path: 'dashboard', component: AdminDashboardComponent },
+      { path: 'bookings', component: AdminBookingComponent },
+      { path: 'services', component: ServiceTableComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    ],
+  },
 ];

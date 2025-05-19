@@ -20,6 +20,12 @@ export class ServiceComponent   {
 
   constructor(private serviceService: ServiceService,private router: Router) {
     this.services$ = this.serviceService.getServices();
+     // subscribe just for logging
+    this.services$.subscribe({
+      next: services => console.log('services:', services),
+      error: err      => console.error('service fetching error:', err)
+    });
+   
   }
 
 

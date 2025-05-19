@@ -29,7 +29,6 @@
               "src/styles.scss"
             ],
             "scripts": [
-               "src/assets/js/razorpay-checkout.js"
             ]
           },
           "configurations": {
